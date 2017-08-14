@@ -29,8 +29,8 @@ func init() {
 	r = new(RouterHandler)
 }
 
-func Run() {
-	err := http.ListenAndServe(":8888", r)
+func Run(port string) {
+	err := http.ListenAndServe(port, r)
 	if err != nil {
 		log.Panic("ListenAndServe: ", err)
 	}
