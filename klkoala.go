@@ -30,7 +30,7 @@ func init() {
 }
 
 func Run(port string) {
-	err := http.ListenAndServe(port, r)
+	err := http.ListenAndServe(":" + port, r)
 	if err != nil {
 		log.Panic("ListenAndServe: ", err)
 	}
