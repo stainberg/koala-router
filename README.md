@@ -1,7 +1,5 @@
-# koalart
-http router
+# koalart < http router >
 
-Installation
 
 ## support method
 ```
@@ -15,20 +13,22 @@ const (
 )
 ```
 
-## Install:
+## Installation
+
+### Install:
 ```
 go get -u github.com/stainberg/koalart
 ```
 
-## Import:
-```
+### Import:
+```go
 import "github.com/stainberg/koalart"
 ```
 
-## Quickstart
+### Quickstart
 
-### create model
-```
+#### create model
+```go
 package models
 
 import (
@@ -55,11 +55,10 @@ func (c *KoalaController) Post()  {
     c.Ctx.Writer.WriteHeader(http.StatusOK)
     io.WriteString(c.Ctx.Writer, `Post KoalaController`)
 }
-
 ```
 
-### create router
-```
+#### create router
+```go
 package router
 
 import (
@@ -73,5 +72,20 @@ func init() {
         koala.NSController(new(models.KoalaController)),
     )
     koala.RegisterNamespace(ns)
+}
+```
+
+#### use
+```go
+package main
+
+import (
+    _ "router"//init router
+    "github.com/stainberg/koalart"
+)
+
+
+func main() {
+    koala.Run("8888")
 }
 ```
