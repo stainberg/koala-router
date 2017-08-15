@@ -80,12 +80,16 @@ func (c *Controller)Match(ctx *Context) {
 	} else {
 		if c.Ctx.Request.Method == GET {
 			c.Get()
+		} else if c.Ctx.Request.Method == PUT {
+			c.Put()
 		} else if c.Ctx.Request.Method == POST {
 			c.Post()
 		} else if c.Ctx.Request.Method == PATCH {
 			c.Patch()
 		} else if c.Ctx.Request.Method == DELETE {
 			c.Delete()
+		} else if c.Ctx.Request.Method == OPTIONS {
+			c.Options()
 		} else {
 			c.NotSupportMethod()
 		}
