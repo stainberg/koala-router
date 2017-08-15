@@ -2,7 +2,7 @@
 
 
 ## support method
-```
+```go
 const (
     GET = "GET"
     POST = "POST"
