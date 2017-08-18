@@ -55,6 +55,15 @@ func _match(s []string, n *Namespace, c *Context) bool {
 					return true
 				}
 			}
+		} else {
+			if n.prefix[:1] == ":" {
+				s = s[1:]
+				for _, ns := range n.linkTree {
+					if _match(s, ns, c) {
+						return true
+					}
+				}
+			}
 		}
 	}
 	return false
