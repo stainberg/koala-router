@@ -47,6 +47,10 @@ func _match(s []string, n *Namespace, c *Context) bool {
 			n.handler.Match(c)
 			return true
 		}
+		if n.prefix[:1] == ":" && n.handler != nil {
+			n.handler.Match(c)
+			return true
+		}
 	} else {
 		if s[0] == n.prefix {
 			s = s[1:]
