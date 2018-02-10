@@ -56,6 +56,7 @@ type Context struct {
 	Writer  http.ResponseWriter
 	Form    url.Values
 	Query   url.Values
+	Vars    url.Values
 	MIME    string
 	Body    string
 }
@@ -63,10 +64,10 @@ type Context struct {
 func (ctx *Context) Init() {
 	ctx.Form = make(url.Values)
 	ctx.Query = make(url.Values)
+	ctx.Vars = make(url.Values)
 }
 
 func (ctx *Context) ParseForm() error {
-	ctx.Init()
 	var queryValues url.Values
 	defer func() {
 		copyValues(ctx.Form, ctx.Request.PostForm)

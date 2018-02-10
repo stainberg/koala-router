@@ -17,7 +17,7 @@ const (
 
 ### Install:
 ```
-go get -u github.com/stainberg/koalart
+go get github.com/stainberg/koalart
 ```
 
 ### Import:

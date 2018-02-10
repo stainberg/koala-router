@@ -16,6 +16,7 @@ func (handler *RouterHandler)ServeHTTP(w http.ResponseWriter, r *http.Request)  
 	time := time.Now().UnixNano()
 	w.Header().Set("sequence", Base64Encode(strconv.FormatInt(time, 10)))
 	ctx := new(Context)
+	ctx.Init()
 	ctx.Request = r
 	ctx.Writer = w
 	find := handler.match(ctx)
@@ -48,6 +49,7 @@ func _match(s []string, n *Namespace, c *Context) bool {
 			return true
 		}
 		if n.prefix[:1] == ":" && n.handler != nil {
+			c.Vars.Add(n.prefix[1:], s[0])
 			n.handler.Match(c)
 			return true
 		}
@@ -61,9 +63,10 @@ func _match(s []string, n *Namespace, c *Context) bool {
 			}
 		} else {
 			if n.prefix[:1] == ":" {
-				s = s[1:]
+				ss := s[1:]
+				c.Vars.Add(n.prefix[1:], s[0])
 				for _, ns := range n.linkTree {
-					if _match(s, ns, c) {
+					if _match(ss, ns, c) {
 						return true
 					}
 				}
