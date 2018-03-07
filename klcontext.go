@@ -62,16 +62,12 @@ type Context struct {
 }
 
 func (ctx *Context) Init() {
-	ctx.Form = make(url.Values)
-	ctx.Query = make(url.Values)
 	ctx.Vars = make(url.Values)
 }
 
 func (ctx *Context) ParseForm() error {
-	var queryValues url.Values
 	defer func() {
-		copyValues(ctx.Form, ctx.Request.PostForm)
-		copyValues(ctx.Query, queryValues)
+		ctx.Form = ctx.Request.PostForm
 	}()
 
 	var err error
@@ -83,22 +79,12 @@ func (ctx *Context) ParseForm() error {
 			ctx.Request.PostForm = make(url.Values)
 		}
 	}
-	if ctx.Request.Form == nil {
-		if len(ctx.Request.PostForm) > 0 {
-			ctx.Request.Form = make(url.Values)
-			copyValues(ctx.Request.Form, ctx.Request.PostForm)
-		}
-		if ctx.Request.URL != nil {
-			queryValues = ctx.Request.URL.Query()
-		}
-		if queryValues == nil {
-			queryValues = make(url.Values)
-		}
-		if ctx.Request.Form == nil {
-			ctx.Request.Form = queryValues
-		} else {
-			copyValues(ctx.Request.Form, queryValues)
-		}
+	ctx.Request.Form = ctx.Request.PostForm
+	if ctx.Request.URL != nil {
+		ctx.Query = ctx.Request.URL.Query()
+	}
+	if ctx.Query == nil {
+		ctx.Query = make(url.Values)
 	}
 	return err
 }
